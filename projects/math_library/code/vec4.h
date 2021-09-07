@@ -30,11 +30,11 @@ namespace Math
 			w = v.w;
 		}
 
-		void operator=(vec4 const& v) {
-			this->x = v.x;
-			this->y = v.y;
-			this->z = v.z;
-			this->w = v.w;
+		void operator=(vec4 const& rhs) {
+			this->x = rhs.x;
+			this->y = rhs.y;
+			this->z = rhs.z;
+			this->w = rhs.w;
 		}
 		vec4 operator-() {
 			vec4 newVec(-x, -y, -z, -w);
@@ -44,27 +44,27 @@ namespace Math
 			vec4 newVec(x + v.x, y + v.y, z + v.z, w + v.w);
 			return newVec;
 		}
-		void operator+=(vec4 const& v) {
-			this->x += v.x;
-			this->y += v.y;
-			this->z += v.z;
-			this->w += v.w;
+		void operator+=(vec4 const& rhs) {
+			this->x += rhs.x;
+			this->y += rhs.y;
+			this->z += rhs.z;
+			this->w += rhs.w;
 		}
-		vec4 operator-(vec4 const& v) {
-			vec4 newVec(x - v.x, y - v.y, z - v.z, w - v.w);
+		vec4 operator-(vec4 const& rhs) {
+			vec4 newVec(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
 			return newVec;
 		}
-		void operator-=(vec4 const& v) {
-			this->x -= v.x;
-			this->y -= v.y;
-			this->z -= v.z;
-			this->w -= v.w;
+		void operator-=(vec4 const& rhs) {
+			this->x -= rhs.x;
+			this->y -= rhs.y;
+			this->z -= rhs.z;
+			this->w -= rhs.w;
 		}
-		void operator*=(float const v) {
-			this->x *= v;
-			this->y *= v;
-			this->z *= v;
-			this->w *= v;
+		void operator*=(float const scalar) {
+			this->x *= scalar;
+			this->y *= scalar;
+			this->z *= scalar;
+			this->w *= scalar;
 		}
 		vec4 operator*(float const scalar) {
 			vec4 newVec(x * scalar, y * scalar, z * scalar, w * scalar);
@@ -74,8 +74,8 @@ namespace Math
 			return this->x == rhs.x && this->y == rhs.y && this->z == rhs.z && this->w == rhs.w;
 		}
 
-		bool operator!=(vec4 const& v) {
-			if ((x != v.x) || (y != v.y) || (z != v.z) || (w != v.w))
+		bool operator!=(vec4 const& rhs) {
+			if ((x != rhs.x) || (y != rhs.y) || (z != rhs.z) || (w != rhs.w))
 				return true;
 			else
 				return false;
@@ -134,9 +134,8 @@ namespace Math
 				return w;
 			return 0;
 		}
-		int printVec4()const {
+		void printVec4()const {
 			std::cout << x << ", " << y << ", " << z << ", " << w << "\n";
-			return 0;
 		}
 	};
 

@@ -162,26 +162,47 @@ namespace Math
 	}
 
 	float determinant(mat4 const m) {
+		float a, b, c, d, e, f, g, h, i, j, k, l, mm, n, o, p;
+		a = m.matrix[0].x;
+		b = m.matrix[0].y;
+		c = m.matrix[0].z;
+		d = m.matrix[0].w;
+
+		e = m.matrix[1].x;
+		f = m.matrix[1].y;
+		g = m.matrix[1].z;
+		h = m.matrix[1].w;
+
+		i = m.matrix[2].x;
+		j = m.matrix[2].y;
+		k = m.matrix[2].z;
+		l = m.matrix[2].w;
+
+		mm = m.matrix[3].x;
+		n = m.matrix[3].y;
+		o = m.matrix[3].z;
+		p = m.matrix[3].w;
+
 		float deter =
-			(m.matrix[0].x *
-				(m.matrix[1].y * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z)
-					- m.matrix[1].z * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
-					+ m.matrix[1].w * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y))
+			(a *
+				(f * (k * p - l * o)
+					- g * (j * p - l * n)
+					+ h * (j * o - k * n))
 
-				- m.matrix[0].y *
-				(m.matrix[1].x * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z)
-					- m.matrix[1].z * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
-					+ m.matrix[1].w * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x))
+				- b *
+				(e * (k * p - l * o)
+					- g * (i * p - l * mm)
+					+ h * (i * o - k * mm))
 
-				+ m.matrix[0].z *
-				(m.matrix[1].x * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
-					- m.matrix[1].y * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
-					+ m.matrix[1].w * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x))
+				+ c *
+				(e * (j * p - l * n)
+					- f * (i * p - l * mm)
+					+ h * (i * n - j * mm))
 
-				- m.matrix[0].w *
-				(m.matrix[1].x * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y)
-					- m.matrix[1].y * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x)
-					+ m.matrix[1].z * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x))
+				- d *
+				(e * (j * o - k * n)
+					- f * (i * o - k * mm)
+					+ g * (i * n - j * mm))
 
 				);
 		return deter;
@@ -226,12 +247,6 @@ namespace Math
 		o = m.matrix[3].z;
 		p = m.matrix[3].w;
 
-		/*vec4 v1 = m.matrix[0];
-		vec4 v2 = m.matrix[1];
-		vec4 v3 = m.matrix[2];
-		vec4 v4 = m.matrix[3];*/
-
-
 		temp[0].x = f * (k * p - l * o) //a
 			- g * (j * p - l * n)
 			+ h * (j * o - k * n); 
@@ -259,7 +274,7 @@ namespace Math
 		temp[2].x = b * (g * p - h * o) //i 
 			- c * (f * p - h * n)
 			+ d * (f * o - g * n);
-		temp[2].y = a * (g * p - h * o) //j why r u wrong
+		temp[2].y = a * (g * p - h * o) //j 
 			- c * (e * p - h * mm)
 			+ d * (e * o - g * mm);
 		temp[2].z = a * (f * p - h * n) //k

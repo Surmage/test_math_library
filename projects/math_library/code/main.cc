@@ -385,14 +385,5 @@ int main()
         printf("Test #%u failed. Line %u, Expression: %s\n", t.id, t.line, t.expr.c_str());
     printf("--- %u/%u tests failed!\n\n", (unsigned)failedTests.size(), testId);
     
-    vec4 testv1(1, 2, 3, 5);
-    vec4 testv2(4, 5, 6, 9);
-    vec4 testv3(3, 5, 2, 7);
-    vec4 testv4(12, 6, 4, 4);
-    vec3 vv(1, 2, 3);
-    mat4 mtest(testv4, testv3, testv2, testv1);
-
-    mat4 a = inverse(mtest);
-    printMatrix(a);
     return 1;
 } 
