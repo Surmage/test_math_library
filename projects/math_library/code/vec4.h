@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <assert.h>
 
 namespace Math
 {
@@ -80,44 +81,24 @@ namespace Math
 				return false;
 		}
 		float& operator[](unsigned int const i) {
-			if (i > 3) {
-				std::cerr << "Error\n";
+			assert(i >= 0 && i <= 3);
+			switch (i) {
+			case 1: return y;
+			case 2: return z;
+			case 3: return w;
+			case 0:
+			default: return x;
 			}
-			else {
-				if (i == 0) {
-					return this->x;
-				}
-				else if (i == 1) {
-					return this->y;
-				}
-				else if (i == 2) {
-					return this->z;
-				}
-				else if (i == 3) {
-					return this->w;
-				}
-			}			
 		}
 		const float operator[](unsigned int const i) const {
-			float returnValue = -1;
-			if (i > 3) {
-				std::cerr << "Error\n";
+			assert(i >= 0 && i <= 3);
+			switch (i) {
+			case 1: return y;
+			case 2: return z;
+			case 3: return w;
+			case 0:
+			default: return x;
 			}
-			else {
-				if (i == 0) {
-					return x;
-				}
-				else if (i == 1) {
-					return y;
-				}
-				else if (i == 2) {
-					return z;
-				}
-				else if (i == 3) {
-					return w;
-				}
-			}
-			return returnValue;
 		}
 
 
@@ -128,13 +109,13 @@ namespace Math
 			}
 
 			if (i == 0)
-				x = value;
+				this->x = value;
 			else if (i == 1)
-				y = value;
+				this->y = value;
 			else if (i == 2)
-				z = value;
+				this->z = value;
 			else if (i == 3)
-				w = value;
+				this->w = value;
 			return 0;
 		}
 		float getElement(unsigned int const i)const {

@@ -4,6 +4,7 @@
 #include "vec4.h"
 #include "vec3.h"
 #include <array>
+#include <assert.h>
 #include <math.h>
 
 namespace Math
@@ -74,20 +75,19 @@ namespace Math
 		vec4& operator[](int const i) {
 			if (i > 3) {
 				std::cerr << "Error\n";
-				vec4 temp;
-				return temp;
-			}
-				
+				return matrix[0];		
+			}		
 			else
 				return matrix[i];
 		}
 		const vec4& operator[](int const i) const {
-			if (i > 3)
+			if (i > 3) {
 				std::cerr << "Error\n";
+				return matrix[0];
+			}
 			else
 				return matrix[i];
 		}
-
 
 	};
 
@@ -205,62 +205,99 @@ namespace Math
 		if (deter == 0) {
 			return temp;
 		}
-		temp[0].x = m.matrix[1].y * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z) //a corrected
-			- m.matrix[1].z * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
-			+ m.matrix[1].w * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y);
-		temp[0].y = m.matrix[1].x * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z) //b corrected
-			- m.matrix[1].z * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
-			+ m.matrix[1].w * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x);
-		temp[0].z = m.matrix[1].x * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y) //c corrected
-			- m.matrix[1].y * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
-			+ m.matrix[1].w * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x);
-		temp[0].w = m.matrix[1].x * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y) //d corrected
-			- m.matrix[1].y * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x)
-			+ m.matrix[1].z * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x);
-		temp[1].x = m.matrix[0].y * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z) //e corrected
-			- m.matrix[0].z * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
-			+ m.matrix[0].w * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y);
-		temp[1].y = m.matrix[0].x * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z) //f corrected
-			- m.matrix[0].z * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
-			+ m.matrix[0].w * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x);
-		temp[1].z = m.matrix[0].x * (m.matrix[2].y * m.matrix[3].w * m.matrix[2].w * m.matrix[3].y) //g corrected
-			- m.matrix[0].y * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
-			+ m.matrix[0].w * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x);
-		temp[1].w = m.matrix[0].x * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y) //h corrected
-			- m.matrix[0].y * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x)
-			+ m.matrix[0].z * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x);
-		temp[2].x = m.matrix[0].y * (m.matrix[1].z * m.matrix[3].w - m.matrix[1].w * m.matrix[3].z) //i corrected
-			- m.matrix[0].z * (m.matrix[1].y * m.matrix[3].w - m.matrix[1].w * m.matrix[3].y)
-			+ m.matrix[0].w * (m.matrix[1].y * m.matrix[3].z - m.matrix[1].z * m.matrix[3].y);
-		temp[2].y = m.matrix[0].x * (m.matrix[1].z * m.matrix[3].w - m.matrix[1].w * m.matrix[3].z) //j
-			- m.matrix[0].z * (m.matrix[1].x * m.matrix[3].w - m.matrix[1].w * m.matrix[3].x)
-			+ m.matrix[0].w * (m.matrix[1].x * m.matrix[3].z - m.matrix[1].z * m.matrix[3].x);
-		temp[2].z = m.matrix[0].x * (m.matrix[1].y * m.matrix[3].w - m.matrix[1].w * m.matrix[3].y) //k
-			- m.matrix[0].y * (m.matrix[1].x * m.matrix[3].w - m.matrix[1].w * m.matrix[3].x)
-			+ m.matrix[0].w * (m.matrix[1].x * m.matrix[3].y - m.matrix[1].y * m.matrix[3].x);
-		temp[2].w = m.matrix[0].x * (m.matrix[1].y * m.matrix[3].z - m.matrix[1].z * m.matrix[3].y) //L
-			- m.matrix[0].y * (m.matrix[1].x * m.matrix[3].z - m.matrix[1].z * m.matrix[3].x)
-			+ m.matrix[0].z * (m.matrix[1].x * m.matrix[3].y - m.matrix[1].y * m.matrix[3].x);
-		temp[3].x = m.matrix[0].y * (m.matrix[1].z * m.matrix[2].w - m.matrix[1].w * m.matrix[2].z) //m
-			- m.matrix[0].z * (m.matrix[1].y * m.matrix[2].w - m.matrix[1].w * m.matrix[2].y)
-			+ m.matrix[0].w * (m.matrix[1].y * m.matrix[2].z - m.matrix[1].z * m.matrix[2].y);
-		temp[3].y = m.matrix[0].x * (m.matrix[1].z * m.matrix[2].w - m.matrix[1].w * m.matrix[2].z) //n
-			- m.matrix[0].z * (m.matrix[1].x * m.matrix[2].w - m.matrix[1].w * m.matrix[2].x)
-			+ m.matrix[0].w * (m.matrix[1].x * m.matrix[2].z - m.matrix[1].z * m.matrix[2].x);
-		temp[3].z = m.matrix[3].z * (m.matrix[1].y * m.matrix[2].w - m.matrix[1].w * m.matrix[2].y) //o
-			- m.matrix[0].y * (m.matrix[1].x * m.matrix[2].w - m.matrix[1].w * m.matrix[2].x)
-			+ m.matrix[0].w * (m.matrix[1].x * m.matrix[2].y - m.matrix[1].y * m.matrix[2].x);
-		temp[3].w = m.matrix[0].x * (m.matrix[1].y * m.matrix[2].z - m.matrix[1].z * m.matrix[2].y) //p corrected
-			- m.matrix[0].y * (m.matrix[1].x * m.matrix[2].z - m.matrix[1].z * m.matrix[2].x)
-			+ m.matrix[0].z * (m.matrix[1].x * m.matrix[2].y - m.matrix[1].y * m.matrix[2].x);
+		float a, b, c, d, e, f, g, h, i, j, k, l, mm, n, o, p;
+		a = m.matrix[0].x;
+		b = m.matrix[0].y;
+		c = m.matrix[0].z;
+		d = m.matrix[0].w;
 
+		e = m.matrix[1].x;
+		f = m.matrix[1].y;
+		g = m.matrix[1].z;
+		h = m.matrix[1].w;
+
+		i = m.matrix[2].x;
+		j = m.matrix[2].y;
+		k = m.matrix[2].z;
+		l = m.matrix[2].w;
+
+		mm = m.matrix[3].x;
+		n = m.matrix[3].y;
+		o = m.matrix[3].z;
+		p = m.matrix[3].w;
+
+		/*vec4 v1 = m.matrix[0];
+		vec4 v2 = m.matrix[1];
+		vec4 v3 = m.matrix[2];
+		vec4 v4 = m.matrix[3];*/
+
+
+		temp[0].x = f * (k * p - l * o) //a
+			- g * (j * p - l * n)
+			+ h * (j * o - k * n); 
+		temp[0].y = e * (k * p - l * o) //b 
+			- g * (i * p - l * mm)
+			+ h * (i * o - k * mm);	
+		temp[0].z = e * (j * p - l * n) //c 
+			- f * (i * p - l * mm)
+			+ h * (i * n - j * mm);
+		temp[0].w = e * (j * o - k * n) //d 
+			- f * (i * o - k * mm)
+			+ g * (i * n - j * mm);
+		temp[1].x = b * (k * p - l * o) //e 
+			- c * (j * p - l * n)
+			+ d * (j * o - k * n);
+		temp[1].y = a * (k * p - l * o) //f 
+			- c * (i * p - l * mm)
+			+ d * (i * o - k * mm);
+		temp[1].z = a * (j * p - l * n) //g 
+			- b * (i * p - l * mm)
+			+ d * (i * n - j * mm);
+		temp[1].w = a * (j * o - k * n) //h 
+			- b * (i * o - k * mm)
+			+ c * (i * n - j * mm);
+		temp[2].x = b * (g * p - h * o) //i 
+			- c * (f * p - h * n)
+			+ d * (f * o - g * n);
+		temp[2].y = a * (g * p - h * o) //j why r u wrong
+			- c * (e * p - h * mm)
+			+ d * (e * o - g * mm);
+		temp[2].z = a * (f * p - h * n) //k
+			- b * (e * p - h * mm)
+			+ d * (e * n - f * mm);
+		temp[2].w = a * (f * o - g * n) //L
+			- b * (e * o - g * mm)
+			+ c * (e * n - f * mm);
+		temp[3].x = b * (g * l - h * k) //m
+			- c * (f * l - h * j)
+			+ d * (f * k - g * j);
+		temp[3].y = a * (g * l - h * k) //n
+			- c * (e * l - h * i)
+			+ d * (e * k - g * i);
+		temp[3].z = a * (f * l - h * j) //o
+			- b * (e * l - h * i)
+			+ d * (e * j - f * i);
+		temp[3].w = a * (f * k - g * j) //p 
+			- b * (e * k - g * i)
+			+ c * (e * j - f * i);
 		
+		
+		temp[0].y *= -1;
+		temp[0].w *= -1;
+		temp[1].x *= -1;
+		temp[1].z *= -1;
+		temp[2].y *= -1;
+		temp[2].w *= -1;
+		temp[3].x *= -1;
+		temp[3].z *= -1;
+
+		//adjugate
 		temp = transpose(temp);
 		for (int i = 0; i < 4; i++) {
-			temp[i].x = (1 / deter) * temp[i].x;
-			temp[i].y = (1 / deter) * temp[i].y;
-			temp[i].z = (1 / deter) * temp[i].z;
-			temp[i].w = (1 / deter) * temp[i].w;
+			temp[i].x = temp[i].x / deter;
+			temp[i].y = temp[i].y / deter;
+			temp[i].z = temp[i].z / deter;
+			temp[i].w = temp[i].w / deter;
 		}
 		return temp;
 	}

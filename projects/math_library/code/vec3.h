@@ -1,8 +1,10 @@
 #pragma once
 #include <iostream>
+#include <assert.h>
 
 namespace Math
 {
+
 	class vec3 {
 	public:
 		float x;
@@ -75,21 +77,13 @@ namespace Math
 				return false;
 		}
 		float& operator[](unsigned int const i) {
-			if (i > 2 || i < 0)
-				std::cerr << "Error\n";
-			else {
-				if (i == 0) {
-					return x;
-				}
-				else if (i == 1) {
-					return y;
-				}
-				else if (i == 2) {
-					return z;
-				}
+			assert(i >= 0 && i <= 2);
+			switch (i) {
+			case 1: return y;
+			case 2: return z;
+			case 0:
+			default: return x;
 			}
-			float invalid = -1;
-			return invalid;
 		}
 
 
@@ -100,11 +94,11 @@ namespace Math
 			}
 
 			if (i == 0)
-				x = value;
+				this->x = value;
 			else if (i == 1)
-				y = value;
+				this->y = value;
 			else if (i == 2)
-				z = value;
+				this->z = value;
 			return 0;
 		}
 		float getElement(unsigned int const i)const {
